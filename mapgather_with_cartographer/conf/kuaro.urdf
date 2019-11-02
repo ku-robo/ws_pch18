@@ -1,0 +1,84 @@
+<robot name="kuaro">
+
+
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 0" />
+      <geometry>
+        <box size="0.595 0.388 0.002" />
+      </geometry>
+      <material name="gray">
+      <color rgba="0.6 0.6 0.6 0.6"/>
+      </material>
+    </visual>
+  </link>
+
+
+
+  <link name="imu">
+    <visual>
+      <geometry>
+        <box size="0.04 0.025 0.01" />
+      </geometry>
+      <material name="orange" />
+    </visual>
+  </link>
+  <joint name="imu_joint" type="fixed">
+    <parent link="base_link" />
+    <child link="imu" />
+    <origin xyz="0.1 0 0.255" rpy="3.14159 0 0"/>
+  </joint>
+
+
+
+  <link name="velodyne">
+    <visual>
+      <geometry>
+        <cylinder length="0.075" radius="0.05" />
+      </geometry>
+      <material name="gray" />
+    </visual>
+  </link>
+  <joint name="velodyne_joint" type="fixed">
+    <parent link="base_link" />
+    <child link="velodyne" />
+    <origin xyz="0.041 0 1.245" />
+  </joint>
+
+
+
+  <link name="laser_front">
+    <visual>
+      <geometry>
+        <cylinder length="0.035" radius="0.025" />
+      </geometry>
+      <material name="gray" />
+    </visual>
+  </link>
+  <joint name="laser_front_joint" type="fixed">
+    <parent link="base_link" />
+    <child link="laser_front" />
+    <origin xyz="0.15 0 -0.054" rpy="3.14159 0 0"/>
+  </joint>
+
+
+  <link name="laser_back">
+    <visual>
+      <geometry>
+        <cylinder length="0.035" radius="0.025" />
+      </geometry>
+      <material name="gray" />
+    </visual>
+  </link>
+  <joint name="laser_back_joint" type="fixed">
+    <parent link="base_link" />
+    <child link="laser_back" />
+    <origin xyz="-0.45 0 0.075" rpy="0 0 3.14159"/>
+  </joint>
+
+
+
+
+
+
+</robot>

@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <master auto="start"/>
+
+  <!--okatech-->
+  <node pkg="okatech_kuaro" type="okatech_kuaro" name="okatech_kuaro" output="screen"/>
+
+  <!--serial-->
+  <node pkg="serial_communication" type="serial_communication" name="serial_communication" output="screen"/>
+  <!--controlar-->
+  <!--Push the left frontal button labeled as 'LB' to activate cmd_vel publishing.Move the left stick around to control the velocity.-->
+
+　<!--turtlebotのパッケージ無いと動かない-->
+  <include file="$(find turtlebot_teleop)/launch/includes/velocity_smoother.launch.xml"/>
+
+　<!--okatech_joy-->
+  <node pkg="okatech_kuaro" type="kuaro_joy" name="kuaro_joy" output="screen">
+    <param name="scale_angular" value="1.2"/>
+    <param name="scale_linear" value="0.8"/>
+    <param name="buttons_deadman" value="5"/>
+    <param name="axis_linear" value="1"/>
+    <param name="axis_angular" value="0"/>
+    <param name="buttons_stop" value="0"/>
+    <param name="buttons_rotation_R" value="5"/>
+    <param name="buttons_rotation_L" value="2"/>
+    <param name="buttons_straight" value="2"/>
+  </node>
+
+ <!--joy-->
+  <node pkg="joy" type="joy_node" name="joystick"/>
+
+
+</launch>
