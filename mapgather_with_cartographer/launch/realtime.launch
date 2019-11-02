@@ -5,8 +5,17 @@
 	<!-- velodyne -->
 	<include file="$(env DIR_GATHER)/launch/core/velodyne.xml" />
 
+	<!-- urg -->
+	<include file="$(env DIR_GATHER)/launch/core/urg.xml" />
+
+	<!-- imu -->
+	<include file="$(env DIR_GATHER)/launch/core/imu.xml" />
+
 	<!-- odom_with_imu -->
 	<include file="$(env DIR_GATHER)/launch/core/odom_with_imu.xml" />
+
+	<!-- odom -->
+	<include file="$(env DIR_GATHER)/launch/core/odom.xml" />
 
 
 	<node name="cartographer_node" pkg="cartographer_ros" type="cartographer_node" args="-configuration_directory $(env DIR_GATHER)/conf -configuration_basename cartographer_2d.lua" output="screen">

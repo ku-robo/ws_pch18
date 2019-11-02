@@ -1,0 +1,10 @@
+<launch>
+    <!--okatech-->
+    <node pkg="okatech_kuaro" type="okatech_kuaro" name="okatech_kuaro" output="screen">
+        <param name="sub_serial_topic" value="/serial_receive" />
+        <param name="sub_cmdvel_topic" value="/cmd_vel" />
+        <param name="pub_odom_topic" value="/odom" />
+        <param name="frame_id" value="odom" />
+        <param name="child_frame_id" value="base_link" />
+    </node>
+</launch>
