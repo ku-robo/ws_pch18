@@ -2,17 +2,21 @@
  * 	uSerialPort.cpp
  * <Last Update>	H27/10/26
  * <version>		v1.0
- *
+ * 								
  * <MEMO>
  * シリアル通信用プログラム
  * ---------------------------------------------*/
-
+ 
+ /*-----ヘッダー宣言-------------------------------*/
 #include <boost/asio.hpp>
-#include "SerialPort.h"
+#include "uSerialPort.h"
 
+/// <summary>
 /// boostのインターフェースを隠蔽するためのクラス
+/// </summary>
 class serial::SerialPort::serial_impl
 {
+	// コンストラクタ、デストラクタ----------------------------
 public:
 	serial_impl()
 		: u_serial_port(NULL)
@@ -59,6 +63,10 @@ public:
 
 };
 
+
+/**
+* @brief コンストラクタ
+*/
 serial::SerialPort::SerialPort()
 	: impl(new serial_impl())
 	, is_connect_(false)
@@ -66,6 +74,9 @@ serial::SerialPort::SerialPort()
 }
 
 
+/**
+* @brief : デストラクタ
+*/
 serial::SerialPort::~SerialPort() {
 	close();
 	puts("good bye serial port");
@@ -186,7 +197,7 @@ void serial::SerialPort::notifyAll(const std::string& str) {
 	// コンディション解除
 	boost::mutex::scoped_lock lk(impl->recv_sync);
 	readData = str;
-	//std::cout << "readData:"<<readData << std::endl;
+	//std::cout << readData << std::endl;
 
 	impl->recv_condition.notify_all();
 }
@@ -199,7 +210,7 @@ void serial::SerialPort::notifyAll(const std::string& str) {
 bool serial::SerialPort::close()
 {
 	if (!is_connect_) return false;
-	//impl->recv_condition.notify_all();
+	impl->recv_condition.notify_all();
 	impl->u_serial_port->close();
 	is_connect_ = false;
 	return true;
@@ -284,6 +295,7 @@ void serial::SerialPort::read_ok(const boost::system::error_code& e, size_t size
 
 	// 受信処理
 	std::string str(rBuffer, rBuffer + size);
+	//readQue.push_back( str );
 
 	// 更新処理
 	notifyAll(str);

@@ -1,14 +1,16 @@
 /*-----------------------------------------------
- * 	uSerialPort.cpp
- * <Last Update>	H27/10/26
- * <version>		v1.0
+ * 	serial_communication.cpp
+ * <Last Update>	H29/08/27
+ * <version>		v2.0
+ * <editor> Takafumi ONO
  *
  * <MEMO>
  * シリアル通信用プログラム
  * ---------------------------------------------*/
 
 #include <boost/asio.hpp>
-#include "SerialPort.h"
+#include "serial_communication.h"
+using namespace serial;
 
 /// boostのインターフェースを隠蔽するためのクラス
 class serial::SerialPort::serial_impl
@@ -16,7 +18,7 @@ class serial::SerialPort::serial_impl
 public:
 	serial_impl()
 		: u_serial_port(NULL)
-		, br(boost::asio::serial_port_base::baud_rate(9600))
+		, br(boost::asio::serial_port_base::baud_rate(57600))
 		, cs(boost::asio::serial_port_base::character_size(8))
 		, fc(boost::asio::serial_port_base::flow_control::none)
 		, parity(boost::asio::serial_port_base::parity::none)
@@ -31,7 +33,6 @@ public:
 		io.stop();
 		if (u_serial_port) delete u_serial_port; u_serial_port = NULL;
 	}
-
 
 	// 属性----------------------------------------------------
 public:
@@ -63,15 +64,37 @@ serial::SerialPort::SerialPort()
 	: impl(new serial_impl())
 	, is_connect_(false)
 {
+
+	//open_flag = false;//ono
+
+	std::string Port = "/dev/sensors/ttyUSBOkatech";
+
+	if (open(Port))
+	{
+		std::cout<<"シリアル通信開始"<<std::endl;
+		//open_flag = true;
+	}
+	else
+	{
+		std::cout<<Port<<"に接続できません。"<<std::endl;
+		exit(0);
+	}
+
+	//ros関係
+	ros::NodeHandle n;//ono
+
+	sub_ = n.subscribe("/serial_send",10,&serial::SerialPort::Callback,this);//ono
+	//pub_= n.advertise<std_msgs::String>("serial_receive",10);//ono
+
 }
 
 
 serial::SerialPort::~SerialPort() {
+
 	close();
 	puts("good bye serial port");
 	boost::this_thread::sleep_for(boost::chrono::milliseconds(500));
 }
-
 
 /**
 * @brief        : ポートのオープン
@@ -161,7 +184,10 @@ bool serial::SerialPort::attach(SerialObserver *ob) {
 }
 
 
+
+
 /**
+
 * @brier     : オブジェクトの破棄を行う
 * @param[in] : 破棄を行うオブジェクト
 * @return    : 成功判定
@@ -180,16 +206,16 @@ bool serial::SerialPort::detach(SerialObserver *ob) {
 * @brief    : 状態の更新を通知する
 * @param[in]: 受信文字列
 */
-// void serial::SerialPort::notifyAll(const std::string& str) {
-// 	// 全てのオブザーバーに通知
-// 	BOOST_FOREACH(SerialObserver* ob, impl->ptrList) ob->notify(str);
-// 	// コンディション解除
-// 	boost::mutex::scoped_lock lk(impl->recv_sync);
-// 	readData = str;
-// 	//std::cout << readData << std::endl;
-//
-// 	impl->recv_condition.notify_all();
-// }
+void serial::SerialPort::notifyAll(const std::string& str) {
+	// 全てのオブザーバーに通知
+	BOOST_FOREACH(SerialObserver* ob, impl->ptrList) ob->notify(str);
+	// コンディション解除
+	boost::mutex::scoped_lock lk(impl->recv_sync);
+	readData = str;
+	//std::cout << "readData:"<<readData << std::endl;
+
+	impl->recv_condition.notify_all();
+}
 
 
 /**
@@ -206,6 +232,7 @@ bool serial::SerialPort::close()
 }
 
 
+//多分使ってない
 /*
 * @brief    ： データリード
 * @return   ： 成功判定
@@ -284,13 +311,65 @@ void serial::SerialPort::read_ok(const boost::system::error_code& e, size_t size
 
 	// 受信処理
 	std::string str(rBuffer, rBuffer + size);
-	//readQue.push_back( str );
 
 	// 更新処理
-	//notifyAll(str);
+	notifyAll(str);
 
 	// 読み込みが完了したので、再度設定
 	impl->u_serial_port->async_read_some(
 		boost::asio::buffer(rBuffer, 1024),
 		boost::bind(&SerialPort::read_ok, this, _1, _2));
+}
+
+
+void serial::SerialPort::Callback(const std_msgs::String::ConstPtr& str_msg){
+
+	//if(!open_flag) return;
+	//std::cout<<str_msg->data<<std::endl;
+	// データ送信
+	send(str_msg->data);
+
+}
+
+//非同期通信用のオブザーバーパターン
+class Observer : public SerialObserver
+{
+public:
+		Observer(){
+			//ros関係
+			ros::NodeHandle n;//ono
+
+			pub_= n.advertise<std_msgs::String>("serial_receive",10);//ono
+		}
+		virtual ~Observer(){}
+		ros::Publisher pub_;
+
+protected:
+		void notify(const std::string& str);
+};
+
+void Observer::notify(const std::string& str){
+	//std::cout << str << std::endl;
+	std_msgs::String str_msg;
+	str_msg.data = str;
+	pub_.publish(str_msg);
+}
+
+int main(int argc, char** argv){
+	ros::init(argc, argv, "serial_communication");
+
+	serial::SerialPort serial;
+
+	//シリアル受信用（非同期）
+	Observer ob;
+
+	// オブザーバー登録
+	serial.attach(&ob);//ono
+
+	ros::spin();
+
+	// オブザーバー登録解除
+	serial.detach(&ob);//ono
+
+	return 0;
 }

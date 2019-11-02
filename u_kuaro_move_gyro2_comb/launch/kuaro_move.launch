@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+
+<launch>
+   <node pkg="u_kuaro_move" type="kuaro_move" name="kuaro_move" output="screen">
+   </node> 
+   <node pkg="tf" type="static_transform_publisher" name="basefootprint_to_baselink" args="0 0 0 0 0 0 base_footprint base_link 100"/>  
+</launch>

@@ -11,6 +11,7 @@
 #ifndef USERIAL_PORT_H_
 #define USERIAL_PORT_H_
 
+/*-----ヘッダー宣言-------------------------------*/
 #include <stdio.h>
 #include <string>
 #include <list>

@@ -1,8 +1,8 @@
 /*-----------------------------------------------
- * 	uSerialPort.h
- * <Last Update>	H27/10/26
- * <version>		v1.0
- *
+ * 	serial_communication.h
+ * <Last Update>	H29/08/25
+ * <version>		v2.0
+ * <editor> Takafumi_ONO
  * <MEMO>
  * シリアル通信用ヘッダー
  * asioはここで読み込まないように
@@ -26,6 +26,10 @@
 #include <boost/thread/condition.hpp>
 #include <boost/smart_ptr.hpp>
 #include <boost/make_shared.hpp>
+
+//ros用
+#include <ros/ros.h>
+#include <std_msgs/String.h>
 
 namespace boost{ namespace system{ class error_code; }; };
 
@@ -99,10 +103,9 @@ namespace serial
 		virtual ~SerialObserver(){}
 
 	protected:
-		//virtual void notify(const std::string& str) = 0;
+		virtual void notify(const std::string& str) = 0;
 
 	};
-
 
 	/**
 	* @brief    : boostを使ったシリアル通信クラス
@@ -118,7 +121,6 @@ namespace serial
 		SerialPort();
 		virtual ~SerialPort();
 
-
 		// 操作------------------------------------------------
 	public:
 		/*
@@ -131,7 +133,7 @@ namespace serial
 		*/
 		bool open(
 			const std::string& com = "COM1",
-			int baudrate = BaudRate::BR57600,
+			int baudrate = BaudRate::BR19200,
 			int bytesize = ByteSize::B8,
 			int parity = Parity::None,
 			int stopbits = StopBits::One,
@@ -190,11 +192,17 @@ namespace serial
 		*/
 		bool isConnect() const { return is_connect_; }
 
+		//ros
+		//ros::Publisher pub_;
+		ros::Subscriber sub_;
+		void Callback(const std_msgs::String::ConstPtr& vel_msg);
 
+    //ポートが開いているかどうかのフラグ
+		bool open_flag;
 
 	private:
 		// 更新関数
-		//virtual void notifyAll(const std::string& str);
+		virtual void notifyAll(const std::string& str);
 
 		// データ書き込み
 		bool write(const char* str, int n);
@@ -217,7 +225,9 @@ namespace serial
 
 		// 最新版の受信データ
 		std::string readData;
+
 	};
 };
+
 
 #endif

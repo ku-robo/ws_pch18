@@ -19,6 +19,6 @@
 		<param name="declination" value="0.23" type="double" />
 		<param name="publish_imu_filltered" value="true" type="bool" />
 		<param name="imu_filtered_rate" value="100" type="int" />
-		<param name="imu_filtered_topic" value="imu_filtered/data" type="str" />
+		<param name="imu_filtered_topic" value="imu" type="str" />
     </node>
 </launch>
