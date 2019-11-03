@@ -1,7 +1,9 @@
 
 velodyne需要`sudo apt install libpcap-dev`
 urg需要 `sudo apt install ros-${ROS_DISTRO}-urg-node`
-okatech需要 `sudo apt-get install ros-${ROS_DISTRO}-turtlebot-teleop`
+okatech需要 `sudo apt install ros-${ROS_DISTRO}-turtlebot-teleop`
+imu需要 `sudo apt install ros-${ROS_DISTRO}-microstrain_mips`
+
 serial_communication
 `/etc/udev/rules.d/95-kuaro.rules`
 ```

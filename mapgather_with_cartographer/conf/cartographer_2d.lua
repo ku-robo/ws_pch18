@@ -19,7 +19,7 @@ options = {
   map_builder = MAP_BUILDER,
   trajectory_builder = TRAJECTORY_BUILDER,
   map_frame = "map",
-  tracking_frame = "base_link",
+  tracking_frame = "imu",
   published_frame = "base_link",
   odom_frame = "odom",
   provide_odom_frame = true,
@@ -44,6 +44,6 @@ options = {
 
 MAP_BUILDER.use_trajectory_builder_2d = true
 TRAJECTORY_BUILDER_2D.num_accumulated_range_data = 10
-TRAJECTORY_BUILDER_2D.use_imu_data = false
+--TRAJECTORY_BUILDER_2D.use_imu_data = false
 
 return options
