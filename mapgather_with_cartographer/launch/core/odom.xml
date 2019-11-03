@@ -1,6 +1,6 @@
 <launch>
     <!--okatech-->
-	<node pkg="serial_communication" type="serial_communication" name="serial_communication" output="screen"/>
+    <node pkg="serial_communication" type="serial_communication" name="serial_communication" output="screen" />
     <node pkg="okatech_kuaro" type="okatech_kuaro" name="okatech_kuaro" output="screen">
         <param name="sub_serial_topic" value="/serial_receive" />
         <param name="sub_cmdvel_topic" value="/cmd_vel" />

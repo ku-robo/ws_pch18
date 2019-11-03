@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" ?>
 <launch>
   <!-- Standalone example launch file for 3DM-GX5-25 -->
 
@@ -10,10 +10,8 @@
   <arg name="imu_topic" default="/imu" />
 
   <!-- Microstrain sensor node -->
-  <node name="microstrain_mips_node"
-  pkg="microstrain_mips"
-  type="microstrain_mips_node" output="screen">
-    
+  <node name="microstrain_mips_node" pkg="microstrain_mips" type="microstrain_mips_node" output="screen">
+
     <remap from="/imu/data" to="$(arg imu_topic)" />
 
     <param name="port" value="$(arg port)" type="str" />
@@ -49,7 +47,6 @@
     <param name="odom_frame_id" value="wgs84_odom_link" type="str" />
     <param name="odom_child_frame_id" value="base_link" type="str" />
   </node>
-
 
 
 </launch>
