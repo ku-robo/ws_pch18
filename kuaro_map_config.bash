@@ -1,3 +1,5 @@
+#! /bin/bash
+
 DIR_MAP_GLOBAL="${HOME}/ws_pch18/kuaro_map"
 DIR_MAP_LOCAL="/1101/first"
 
