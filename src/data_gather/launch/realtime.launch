@@ -5,25 +5,25 @@
 	<node pkg="rosbag" type="record" name="rosbag_record" args="--lz4 -O $(env DIR_MAP)/gather.bag -a" output="screen" />
 
 	<!-- urdf -->
-	<include file="$(env DIR_GATHER)/launch/core/urdf.xml" />
+	<include file="$(find data_gather)/launch/core/urdf.xml" />
 
 	<!-- velodyne -->
-	<include file="$(env DIR_GATHER)/launch/core/velodyne.xml" />
+	<include file="$(find data_gather)/launch/core/velodyne.xml" />
 
 	<!-- urg -->
-	<include file="$(env DIR_GATHER)/launch/core/urg.xml" />
+	<include file="$(find data_gather)/launch/core/urg.xml" />
 
 	<!-- imu -->
-	<include file="$(env DIR_GATHER)/launch/core/imu.xml" />
+	<include file="$(find data_gather)/launch/core/imu.xml" />
 
 	<!-- odom -->
 	<include file="$(find okatech_kuaro)/launch/okatech_kuaro.launch" />
 
 	<!-- odom_with_imu -->
-	<include file="$(env DIR_GATHER)/launch/core/odom_with_imu.xml" />
+	<include file="$(find data_gather)/launch/core/odom_with_imu.xml" />
 
 
-	<node name="cartographer_node" pkg="cartographer_ros" type="cartographer_node" args="-configuration_directory $(env DIR_GATHER)/conf -configuration_basename cartographer_$(arg 2d3d_mode).lua" output="screen">
+	<node name="cartographer_node" pkg="cartographer_ros" type="cartographer_node" args="-configuration_directory $(find data_gather)/conf -configuration_basename cartographer_$(arg 2d3d_mode).lua" output="screen">
 		<remap from="points2" to="/velodyne_points" />
 		<remap from="odom" to="/odom_with_imu" />
 		<remap from="imu" to="/imu" />
@@ -31,7 +31,7 @@
 	<node name="cartographer_occupancy_grid_node" pkg="cartographer_ros" type="cartographer_occupancy_grid_node" args="-resolution 0.05" />
 
 
-	<node name="rviz" pkg="rviz" type="rviz" required="true" args="-d $(env DIR_GATHER)/conf/cartographer_$(arg 2d3d_mode).rviz" />
+	<node name="rviz" pkg="rviz" type="rviz" required="true" args="-d $(find data_gather)/conf/cartographer_$(arg 2d3d_mode).rviz" />
 
 
 	<!-- <param name="/use_sim_time" value="true" />

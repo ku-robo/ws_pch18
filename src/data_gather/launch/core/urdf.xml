@@ -1,4 +1,4 @@
 <launch>
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
-  <param name="robot_description" textfile="$(env DIR_GATHER)/conf/kuaro.urdf" />
+  <param name="robot_description" textfile="$(find data_gather)/conf/kuaro.urdf" />
 </launch>

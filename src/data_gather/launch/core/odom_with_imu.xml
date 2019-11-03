@@ -1,5 +1,5 @@
 <launch>
-    <node pkg="mapgather_with_cartographer" type="odom_imu_combine" name="odom_imu_combine" output="screen">
+    <node pkg="data_gather" type="odom_imu_combine" name="odom_imu_combine" output="screen">
         <param name="sub_odom_topic" value="/odom" />
         <param name="sub_imu_topic" value="/imu" />
         <param name="pub_odom_imu_topic" value="/odom_with_imu" />
