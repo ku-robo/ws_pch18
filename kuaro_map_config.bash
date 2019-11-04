@@ -11,5 +11,3 @@ mkdir -p $DIR_MAP_BAG
 
 export DIR_MAP_OUT="${DIR_MAP}/out"
 mkdir -p $DIR_MAP_OUT
-
-echo 'haha'

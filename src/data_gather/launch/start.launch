@@ -6,8 +6,9 @@
 	<node pkg="rosbag" type="record" name="rosbag_record" args="--lz4 -O $(env DIR_MAP_BAG)/gather.bag -a" output="screen" />
 
 	<!-- urdf -->
-	<include file="$(find data_gather)/launch/core/urdf.xml" />
-
+    <param name="robot_description" textfile="$(find data_gather)/conf/kuaro.urdf" />
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+    
 	<!-- velodyne -->
 	<include file="$(find data_gather)/launch/core/velodyne.xml" />
 
