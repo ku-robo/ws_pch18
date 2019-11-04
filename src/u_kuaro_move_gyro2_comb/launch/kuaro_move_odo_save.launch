@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-
-<launch>
-   <node pkg="u_kuaro_move" type="kuaro_move_odo_save" name="kuaro_move_odo_save" output="screen">
-   </node> 
-   <node pkg="tcp_ros" type="utcp_ros" name="utcp_ros" /> 
-  <node pkg="joy" type="joy_node" respawn="false" name="joy_node" output="screen"/>
-</launch>
