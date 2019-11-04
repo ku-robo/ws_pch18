@@ -7,22 +7,12 @@ okatech需要  `sudo apt install ros-${ROS_DISTRO}-turtlebot-teleop`
 imu需要  `sudo apt install ros-${ROS_DISTRO}-microstrain_mips`  
 
 
-
 # 设置环境变量
 ```
 # ROS
 source /opt/ros/kinetic/setup.bash
-
-source ~/ws_cartographer/install_isolated/setup.bash
-alias cm-cartographer='cd ~/ws_cartographer && catkin_make_isolated --install --use-ninja'
-
-source ~/ws_pch18/devel/setup.bash
-alias cm-pch18='cd ~/ws_pch18 && catkin_make'
-
-export WS_CONFIG_PATH='${HOME}/ws_pch18/kuaro_map_config.bash'
-alias roslaunch='${WS_CONFIG_PATH} && roslaunch'
+source ~/ws_pch18/setup.bash
 ```
-
 
 
 # 安装cartographer_ros
@@ -42,7 +32,6 @@ catkin_make_isolated --install --use-ninja
 ```
 
 
-
 # 固定设备号
 写入以下内容到文件`/etc/udev/rules.d/95-kuaro.rules`  
 ```
@@ -52,4 +41,10 @@ KERNEL=="ttyUSB*", ATTRS{product}=="USB HS SERIAL CONVERTER", ATTRS{serial}=="FT
 KERNEL=="ttyUSB*", ATTRS{product}=="USB HS SERIAL CONVERTER", ATTRS{serial}=="FT0B6GFC", SYMLINK+="sensors/ttyUSBGyro"
 # GPS
 KERNEL=="ttyUSB*", ATTRS{product}=="USB HS SERIAL CONVERTER", ATTRS{serial}=="FTXQOCXI", SYMLINK+="sensors/ttyUSBGPS"
+```
+
+
+# docker 下 CMD
+```
+bash -c '~/ws_pch18/setup.bash && bash'
 ```
