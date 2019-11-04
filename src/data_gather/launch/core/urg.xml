@@ -1,6 +1,6 @@
 <launch>
     <!-- urg_node_front  -->
-    <node pkg="urg_node" type="urg_node" respawn="false" name="urg_node_front" output="screen">
+    <node pkg="urg_node" type="urg_node" respawn="true" name="urg_node_front" output="screen">
         <param name="serial_port" value="/dev/ttyACM1" />
         <param name="frame_id" value="laser_front" />
         <param name="angle_min" value="-1.1345" />
@@ -8,7 +8,7 @@
         <remap from="scan" to="/scan_front" />
     </node>
     <!-- urg_node_back  -->
-    <node pkg="urg_node" type="urg_node" respawn="false" name="urg_node_back" output="screen">
+    <node pkg="urg_node" type="urg_node" respawn="true" name="urg_node_back" output="screen">
         <param name="serial_port" value="/dev/ttyACM2" />
         <param name="frame_id" value="laser_back" />
         <param name="angle_min" value="-2.2689" />

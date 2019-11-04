@@ -7,3 +7,4 @@ alias cm-pch18="cd `dirname ${BASH_SOURCE}` && catkin_make"
 
 export WS_CONFIG_PATH="`dirname ${BASH_SOURCE}`/kuaro_map_config.bash"
 alias roslaunch="source ${WS_CONFIG_PATH} && roslaunch"
+

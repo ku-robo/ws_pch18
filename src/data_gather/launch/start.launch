@@ -1,14 +1,16 @@
 <launch>
 
-    <!-- 加一个判断rosbag 文件存在则退出 -->
-
 	<!-- rosbag -->
-	<node pkg="rosbag" type="record" name="rosbag_record" args="--lz4 -O $(env DIR_MAP_BAG)/gather.bag -a" output="screen" />
+	<arg name="record" default="0"/>
+	<group if="$(arg record)">
+		<node pkg="data_gather" type="check_bagfile_unexisted.sh.sh" name="check_bagfile_unexisted.sh" required="true" args="$(env DIR_MAP_BAG)/gather.bag" output="screen" />
+		<node pkg="rosbag" type="record" name="rosbag_record" args="-j -O $(env DIR_MAP_BAG)/gather.bag -a" output="screen" />
+	</group>
 
 	<!-- urdf -->
-    <param name="robot_description" textfile="$(find data_gather)/conf/kuaro.urdf" />
-    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
-    
+	<param name="robot_description" textfile="$(find data_gather)/conf/kuaro.urdf" />
+	<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
 	<!-- velodyne -->
 	<include file="$(find data_gather)/launch/core/velodyne.xml" />
 
@@ -18,10 +20,7 @@
 	<!-- imu -->
 	<include file="$(find data_gather)/launch/core/imu.xml" />
 
-	<!-- odom -->
+	<!-- okatech -->
 	<include file="$(find okatech_kuaro)/launch/okatech_kuaro.launch" />
-
-	<!-- odom_with_imu -->
-	<include file="$(find data_gather)/launch/core/odom_with_imu.xml" />
 
 </launch>

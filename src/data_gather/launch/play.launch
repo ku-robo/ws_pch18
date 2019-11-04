@@ -1,6 +1,8 @@
 <launch>
+	<param name="robot_description" textfile="$(find data_gather)/conf/kuaro.urdf" />
+	
 	<param name="/use_sim_time" value="true" />
+	
 	<node name="playbag" pkg="rosbag" type="play" args="-r 1.0 --clock $(env DIR_MAP_BAG)/gather.bag" />
 
-	<param name="robot_description" textfile="$(find data_gather)/conf/kuaro.urdf" />
 </launch>
