@@ -178,6 +178,9 @@ void OKATECH::SendComandToSerial_Callback(const geometry_msgs::Twist::ConstPtr& 
 //前進速度制御　コマンド例（0.5[m/s]前進：VCX0.5）a
 std::string OKATECH::ToStringCmd_linear_vel(double linear_vel)
 {
+  if( 0.1 > std::abs(linear_vel) ){
+    linear_vel = 0.0;
+  }
   std::string cmd = "\rVCX" + patch_std::to_string(linear_vel)+"\r";
   //std::cout<<"VCX="<<cmd<<std::endl;
   return cmd;
