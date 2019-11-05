@@ -1,8 +1,6 @@
 <launch>
-	<node pkg="okatech_kuaro" type="okatech_kuaro" name="okatech_kuaro" output="screen">
-		<param name="sub_serial_topic" value="/serial_receive" />
-		<param name="sub_cmdvel_topic" value="/cmd_vel" />
-		<param name="pub_odom_imu_topic" value="/odom" />
+	<node respawn="true" pkg="data_gather" type="okatech" name="okatech" output="screen">
+		<param name="port" value="/dev/sensors/ttyUSBOkatech" />
 		<param name="frame_id" value="odom" />
 		<param name="child_frame_id" value="base_link" />
 	</node>
