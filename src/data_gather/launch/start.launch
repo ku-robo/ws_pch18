@@ -1,26 +1,29 @@
 <launch>
 
-	<!-- rosbag -->
-	<arg name="record" default="0"/>
-	<group if="$(arg record)">
-		<node required="true" pkg="data_gather" type="check_bagfile_unexisted.sh.sh" name="check_bagfile_unexisted.sh" args="$(env DIR_MAP_BAG)/gather.bag" output="screen" />
-		<node required="true" pkg="rosbag" type="record" name="rosbag_record" args="-j -O $(env DIR_MAP_BAG)/gather.bag -a" output="screen" />
-	</group>
+    <!-- rosbag -->
+    <arg name="record" default="0" />
+    <group if="$(arg record)">
+        <node required="true" pkg="data_gather" type="check_bagfile_unexisted.sh.sh" name="check_bagfile_unexisted.sh" args="$(env DIR_MAP_BAG)/gather.bag" output="screen" />
+        <node required="true" pkg="rosbag" type="record" name="rosbag_record" args="-j -O $(env DIR_MAP_BAG)/gather.bag -a" output="screen" />
+    </group>
 
-	<!-- urdf -->
-	<param name="robot_description" textfile="$(find data_gather)/conf/kuaro.urdf" />
-	<node respawn="true" name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+    <!-- urdf -->
+    <param name="robot_description" textfile="$(find data_gather)/conf/kuaro.urdf" />
+    <node respawn="true" name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
 
-	<!-- velodyne -->
-	<include file="$(find data_gather)/launch/core/velodyne.xml" />
+    <!-- velodyne -->
+    <include file="$(find data_gather)/launch/core/velodyne.xml" />
 
-	<!-- urg -->
-	<include file="$(find data_gather)/launch/core/urg.xml" />
+    <!-- urg -->
+    <include file="$(find data_gather)/launch/core/urg.xml" />
 
-	<!-- imu -->
-	<include file="$(find data_gather)/launch/core/imu.xml" />
+    <!-- imu -->
+    <include file="$(find data_gather)/launch/core/imu.xml" />
 
-	<!-- okatech -->
-	<include file="$(find data_gather)/launch/okatech.launch" />
+    <!-- okatech
+    <include file="$(find data_gather)/launch/okatech.launch" /> -->
+
+    <!-- odom -->
+    <include file="$(find data_gather)/launch/odom.launch" />
 
 </launch>

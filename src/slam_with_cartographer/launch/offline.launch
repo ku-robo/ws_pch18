@@ -13,8 +13,15 @@
                 -configuration_basenames 2d.lua
                 -urdf_filenames $(find data_gather)/conf/kuaro.urdf
                 -bag_filenames $(env DIR_MAP_BAG)/gather.bag" output="screen">
-        <remap from="points2" to="/velodyne_points" />
-        <remap from="odom" to="/odom_with_imu" />
-        <remap from="imu" to="/imu" />
+        <remap from="/points2" to="/velodyne_points" />
+        <!-- <remap from="/odom" to="/odom" /> -->
+        <remap from="/imu" to="/imu" />
+        <!-- <remap from="/tf" to="/old_tf" /> -->
     </node>
+
+
+	<param name="robot_description" textfile="$(find data_gather)/conf/kuaro.urdf" />
+	<!-- <node respawn="true" name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" /> -->
+
+
 </launch>
