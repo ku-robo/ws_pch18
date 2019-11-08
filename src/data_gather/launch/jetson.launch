@@ -1,0 +1,11 @@
+
+<launch>
+  <machine name="jetson" address="192.168.1.200" user="robo" password="robo" env-loader="/home/robo/remote_ros.sh" default="true" />
+
+  <arg name="w" default="singo-tiny"/>
+
+  <node machine="jetson" name="yolo" pkg="yolo" type="start.sh" output="screen">
+    <param name="w" value="$(arg w)"/>
+  </node>
+</launch>
+
