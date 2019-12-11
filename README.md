@@ -1,10 +1,9 @@
 
-
 # 安装依赖
 velodyne需要  `sudo apt install ros-${ROS_DISTRO}-velodyne`  
 urg需要  `sudo apt install ros-${ROS_DISTRO}-urg-node`  
 okatech需要  `sudo apt install ros-${ROS_DISTRO}-turtlebot-teleop`  
-imu需要  `sudo apt install ros-${ROS_DISTRO}-microstrain_mips`  
+imu需要  `sudo apt install ros-${ROS_DISTRO}-microstrain-mips`  
 
 
 # 设置环境变量
